@@ -31,7 +31,16 @@ push = false
 [tool.cibuildwheel]
 archs = ["auto64"]
 build-frontend = "build"
-test-requires = "pytest"
+test-requires = [
+  "pytest>=7.2.1, <8",
+  "pytest-cov>=4.0.0, <5",
+  "numpy>=1.21.0, <2",
+  "tensorflow>=2.10.0, <3",
+  "onnx>=1.12.0, <2",
+  "onnxruntime>=1.12.0, <2",
+  "torch>=1.11.0, <2",
+]
+test-command = "pytest {package}/maraboupy/test"
 
 [tool.cibuildwheel.linux]
 before-all = "yum install -y wget"
