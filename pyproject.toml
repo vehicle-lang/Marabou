@@ -34,4 +34,5 @@ build-frontend = "build"
 test-requires = "pytest"
 
 [tool.cibuildwheel.linux]
+archs = ["x86_64", "aarch64", "ppc64le"]
 before-all = "yum install -y wget"
