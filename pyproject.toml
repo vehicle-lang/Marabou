@@ -30,7 +30,6 @@ push = false
 
 [tool.cibuildwheel]
 archs = ["auto64"]
-build = "cp38-*"
 build-frontend = "build"
 test-requires = "pytest"
 
