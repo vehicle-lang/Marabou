@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "maraboupy"
-version = "2023.1001a0"
+version = "2023.1001"
 authors = [{ name = "Wen Kokke", email = "wenkokke@users.noreply.github.com" }]
 description = "A package wrapping Marabou for Vehicle."
 readme = "README.md"
@@ -15,7 +15,7 @@ requires-python = ">=3.5"
 packages = ["maraboupy"]
 
 [tool.bumpver]
-current_version = "v2023.1001-alpha"
+current_version = "v2023.1001"
 version_pattern = "vYYYY.BUILD[-TAG]"
 commit_message = "bump version {old_version} -> {new_version}"
 commit = false
