@@ -37,7 +37,7 @@ _deps
 /tools/pybind11-2.3.0
 /tools/pybind11_2_3_0.tar.gz
 /tools/pybind11-2.10.4
-/tools/pybind11-2_10_4.tar.gz
+/tools/pybind11_2_10_4.tar.gz
 /tools/protobuf*
 /tools/OpenBLAS-*/
 /tools/OpenBLASv*.tar.gz
