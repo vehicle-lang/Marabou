@@ -66,3 +66,6 @@ test-skip = [
   "*-macosx_arm64",
   "*-macosx_universal2:arm64"
 ]
+
+[tool.cibuildwheel.windows]
+before-all = "choco install wget"
