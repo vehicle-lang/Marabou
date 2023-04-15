@@ -62,8 +62,6 @@ jobs:
         env:
           MACOSX_DEPLOYMENT_TARGET: "10.9"
 
-
       - uses: actions/upload-artifact@v3
         with:
           path: ./wheelhouse/*.whl
-
