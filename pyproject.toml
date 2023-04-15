@@ -48,9 +48,8 @@ skip = [
   # 2023-04-16: pybind11 2.3.0 is too old to build Python 3.11 bindings without warnings
   "cp311-*",
 ]
-# 2023-04-16: Disable tests:
-# before-test = ["python {package}/setup.py build_ext --inplace"]
-# test-command = "pytest {package}/maraboupy/test"
+before-test = ["python {package}/setup.py build_ext --inplace"]
+test-command = "pytest {package}/maraboupy/test"
 test-extras = ["test"]
 test-skip = [
   # 2023-04-15: onnxruntime does not support Python 3.11
@@ -63,9 +62,7 @@ before-all = "yum install -y wget"
 [tool.cibuildwheel.macos]
 archs = ["x86_64", "universal2", "arm64"]
 test-skip = [
-  # 2023-04-15: torch 1.13.1 does not support Python 3.11 on macOS
-  "cp311-macosx*",
-  # Skip trying to test arm64 builds on Intel Macs
+  # 2023-04-15: Skip trying to test arm64 builds on Intel Macs
   "*-macosx_arm64",
   "*-macosx_universal2:arm64"
 ]
