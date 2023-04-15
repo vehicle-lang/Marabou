@@ -37,7 +37,7 @@ jobs:
       matrix:
         os: [ubuntu-latest] #TODO: macos-latest
         compiler: [g++, clang++]
-        build_type: [Debug, Production]
+        build_type: [Debug, Release]
 
     runs-on: ${{ matrix.os }}
     name: Debug build
