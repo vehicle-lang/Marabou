@@ -46,3 +46,8 @@ test-command = "pytest {package}/maraboupy/test"
 
 [tool.cibuildwheel.linux]
 before-all = "yum install -y wget"
+
+[tool.cibuildwheel.macos]
+archs = ["x86_64", "universal2", "arm64"]
+# Skip trying to test arm64 builds on Intel Macs
+test-skip = "*-macosx_arm64 *-macosx_universal2:arm64"
