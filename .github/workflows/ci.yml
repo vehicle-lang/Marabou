@@ -35,9 +35,13 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [ubuntu-latest] #TODO: macos-latest
+        os: [ubuntu-latest]
         compiler: [g++, clang++]
         build_type: [Debug, Release]
+        include:
+          - os: macos-latest
+            compiler: clang++
+            build_type: Release
 
     runs-on: ${{ matrix.os }}
     name: ${{ matrix.build_type }} build
@@ -60,6 +64,15 @@ jobs:
             cxxtest \
             protobuf-compiler \
             libprotoc-dev
+
+      - name: Install system packages
+        if: runner.os == 'macOS'
+        run: |
+          brew install \
+            ccache \
+            cmake \
+            cxxtest \
+            protobuf-c
 
       - name: Install Python packages
         run: |
