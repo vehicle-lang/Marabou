@@ -44,7 +44,7 @@ jobs:
             build_type: Release
 
     runs-on: ${{ matrix.os }}
-    name: ${{ matrix.build_type }} build
+    name: Build ${{ matrix.build_type }} on ${{ matrix.os }}
 
     steps:
       - uses: actions/checkout@v3
