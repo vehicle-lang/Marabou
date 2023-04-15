@@ -48,7 +48,7 @@ jobs:
         with:
           python-version: "3.8"
 
-      - name: Install Packages
+      - name: Install system packages
         if: runner.os == 'Linux'
         run: |
           sudo apt-get update -y
@@ -59,6 +59,9 @@ jobs:
             cxxtest \
             protobuf-compiler \
             libprotoc-dev
+
+      - name: Install Python packages
+        run: |
           python -m pip install --user --upgrade pip
           python -m pip install --user --upgrade setuptools
           python -m pip install --user wheel
