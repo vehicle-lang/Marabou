@@ -40,7 +40,7 @@ jobs:
         build_type: [Debug, Release]
 
     runs-on: ${{ matrix.os }}
-    name: Debug build
+    name: ${{ matrix.build_type }} build
 
     steps:
       - uses: actions/checkout@v3
