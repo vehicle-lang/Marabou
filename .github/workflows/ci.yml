@@ -35,10 +35,11 @@ jobs:
   build:
     strategy:
       matrix:
+        os: [ubuntu-latest] #TODO: macos-latest
         compiler: [g++, clang++]
         build_type: [Debug, Production]
 
-    runs-on: ubuntu-latest #TODO: macos-latest
+    runs-on: ${{ matrix.os }}
     name: Debug build
 
     steps:
