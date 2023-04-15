@@ -62,6 +62,8 @@ before-all = "yum install -y wget"
 [tool.cibuildwheel.macos]
 archs = ["x86_64", "universal2", "arm64"]
 test-skip = [
+  # 2023-04-15: onnxruntime does not support Python 3.11
+  "cp311-*",
   # 2023-04-15: Skip trying to test arm64 builds on Intel Macs
   "*-macosx_arm64",
   "*-macosx_universal2:arm64"
