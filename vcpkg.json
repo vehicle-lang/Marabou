@@ -1,13 +1,13 @@
 {
   "dependencies": [
-    "boost",
-    "boost-program-options",
-    "boost-timer",
-    "boost-chrono",
-    "boost-thread",
-    "onnx",
-    "openblas",
-    "protobuf",
-    "pybind11"
+    { "name": "boost", "version>=": "1.80.0" },
+    { "name": "boost-program-options", "version>=": "1.80.0" },
+    { "name": "boost-timer", "version>=": "1.80.0" },
+    { "name": "boost-chrono", "version>=": "1.80.0" },
+    { "name": "boost-thread", "version>=": "1.80.0" },
+    { "name": "onnx", "version>=": "1.10.2" },
+    { "name": "openblas", "version>=": "0.3.19" },
+    { "name": "protobuf", "version>=": "3.19.2" },
+    { "name": "pybind11", "version>=": "3.10.4" }
   ]
 }
