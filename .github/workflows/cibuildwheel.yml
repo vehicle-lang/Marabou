@@ -53,7 +53,7 @@ jobs:
       - name: Setup cibuildwheel
         run: python -m pip install cibuildwheel==2.12.1
 
-      - name: Install C/C++ dependencies via vcpkg
+      - name: Setup vcpkg for cmake
         if: runner.os == 'Windows'
         run: echo "CMAKE_TOOLCHAIN_FILE=$VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake" >> $GITHUB_ENV
 
