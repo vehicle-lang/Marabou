@@ -42,9 +42,14 @@ push = false
 [tool.cibuildwheel]
 archs = ["auto64"]
 build-frontend = "build"
-# Disable building PyPy wheels on all platforms
-skip = "pp*"
+skip = [
+  # 2023-04-16: pybind11 does not support PyPy
+  "pp*",
+  # 2023-04-16: pybind11 2.3.0 is too old to build Python 3.11 bindings without warnings
+  "cp311-*",
+]
 # 2023-04-16: Disable tests:
+# before-test = ["python {package}/setup.py build_ext --inplace"]
 # test-command = "pytest {package}/maraboupy/test"
 test-extras = ["test"]
 test-skip = [
