@@ -62,60 +62,61 @@ file(GLOB DEPS_CVC4_BASE "${CVC4_BASE_DIR}/*.cpp")
 include_directories(SYSTEM ${CVC4_DIR} ${CVC4_DIR}/include)
 
 # Boost
-if (MSVC)
-  set(BOOST_ROOT "${BOOST_DIR}/win_installed")
-elseif (${CMAKE_SIZEOF_VOID_P} EQUAL 4 AND NOT MSVC)
-  set(BOOST_ROOT "${BOOST_DIR}/installed32")
-else()
-  set(BOOST_ROOT "${BOOST_DIR}/installed")
-endif()
-
-if (MSVC)
-  set(SCRIPT_EXTENSION bat)
-  set(Boost_NAMESPACE libboost)
-else()
-  set(SCRIPT_EXTENSION sh)
-endif()
-
-
 set(Boost_USE_DEBUG_RUNTIME FALSE)
 find_package(Boost COMPONENTS program_options timer chrono thread)
 # Find boost
 if (NOT ${Boost_FOUND})
-  # bash file that downloads and install boost 1_80_0, the name need to match
-  # BOOST_DIR variable
+  if (MSVC)
+    set(SCRIPT_EXTENSION bat)
+    set(Boost_NAMESPACE libboost)
+  else()
+    set(SCRIPT_EXTENSION sh)
+  endif()
+
+  if (MSVC)
+    set(BOOST_ROOT "${BOOST_DIR}/win_installed")
+  elseif (${CMAKE_SIZEOF_VOID_P} EQUAL 4 AND NOT MSVC)
+    set(BOOST_ROOT "${BOOST_DIR}/installed32")
+  else()
+    set(BOOST_ROOT "${BOOST_DIR}/installed")
+  endif()
+
+  # Runs a BASH script that downloads and install boost 1_80_0,
+  # the name need to match BOOST_DIR variable
   execute_process(COMMAND ${TOOLS_DIR}/download_boost.${SCRIPT_EXTENSION})
   find_package(Boost REQUIRED COMPONENTS program_options timer chrono thread)
 endif()
 set(LIBS_INCLUDES ${Boost_INCLUDE_DIRS})
 list(APPEND LIBS ${Boost_LIBRARIES})
 
-# Protobuf (needed to compile Onnx file below)
-if(NOT EXISTS "${PROTOBUF_DIR}/installed/lib/libprotobuf.a")
-    message("Can't find protobuf, installing. If protobuf is installed please use the PROTOBUF_DIR parameter to pass the path")
-    if (${PROTOBUF_DIR} STREQUAL ${PROTOBUF_DEFAULT_DIR})
-        message("installing protobuf")
-        execute_process(COMMAND ${TOOLS_DIR}/download_protobuf.sh)
-    else()
-        message(FATAL_ERROR "Can't find protobuf in the supplied directory")
-    endif()
-endif()
-
-set(PROTOBUF_LIB protobuf)
-add_library(${PROTOBUF_LIB} SHARED IMPORTED)
-set_target_properties(${PROTOBUF_LIB} PROPERTIES IMPORTED_LOCATION ${PROTOBUF_DIR}/installed/lib/libprotobuf.a)
-target_include_directories(${PROTOBUF_LIB} INTERFACE ${PROTOBUF_DIR}/installed/include)
-list(APPEND LIBS ${PROTOBUF_LIB})
-
 # Onnx
-if(NOT EXISTS "${ONNX_DIR}/onnx.proto3.pb.h")
-    message("generating ONNX protobuf file")
-    execute_process(COMMAND ${TOOLS_DIR}/download_onnx.sh)
-endif()
-file(GLOB DEPS_ONNX "${ONNX_DIR}/*.cc")
-include_directories(SYSTEM ${ONNX_DIR})
+find_package(Onnx)
+if(NOT ${Onnx_FOUND})
+  # Protobuf (needed to compile Onnx file below)
+  if(NOT EXISTS "${PROTOBUF_DIR}/installed/lib/libprotobuf.a")
+      message("Can't find protobuf, installing. If protobuf is installed please use the PROTOBUF_DIR parameter to pass the path")
+      if (${PROTOBUF_DIR} STREQUAL ${PROTOBUF_DEFAULT_DIR})
+          message("installing protobuf")
+          execute_process(COMMAND ${TOOLS_DIR}/download_protobuf.sh)
+      else()
+          message(FATAL_ERROR "Can't find protobuf in the supplied directory")
+      endif()
+  endif()
 
-set(OPENBLAS_LIB openblas)
+  set(PROTOBUF_LIB protobuf)
+  add_library(${PROTOBUF_LIB} SHARED IMPORTED)
+  set_target_properties(${PROTOBUF_LIB} PROPERTIES IMPORTED_LOCATION ${PROTOBUF_DIR}/installed/lib/libprotobuf.a)
+  target_include_directories(${PROTOBUF_LIB} INTERFACE ${PROTOBUF_DIR}/installed/include)
+  list(APPEND LIBS ${PROTOBUF_LIB})
+
+  # Onnx
+  if(NOT EXISTS "${ONNX_DIR}/onnx.proto3.pb.h")
+      message("generating ONNX protobuf file")
+      execute_process(COMMAND ${TOOLS_DIR}/download_onnx.sh)
+  endif()
+  file(GLOB DEPS_ONNX "${ONNX_DIR}/*.cc")
+  include_directories(SYSTEM ${ONNX_DIR})
+endif()
 
 set(BIN_DIR "${CMAKE_BINARY_DIR}/bin")
 
@@ -254,8 +255,10 @@ if (${ENABLE_GUROBI})
 endif()
 
 #OpenBLAS
-if (NOT MSVC)
 if (${ENABLE_OPENBLAS})
+find_package(OpenBLAS REQUIRED)
+if (NOT ${OpenBLAS_FOUND})
+if (NOT MSVC)
     message(STATUS "using openblas for matrix multiplication")
     add_compile_definitions(ENABLE_OPENBLAS)
     if(NOT EXISTS "${OPENBLAS_DIR}/installed/lib/libopenblas.a")
@@ -274,12 +277,13 @@ if (${ENABLE_OPENBLAS})
     target_include_directories(${OPENBLAS_LIB} INTERFACE ${OPENBLAS_DIR}/installed/include)
 endif()
 endif()
+endif()
+set(OPENBLAS_LIB openblas)
 
 # pthread
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
 list(APPEND LIBS Threads::Threads)
-
 
 if (BUILD_STATIC_MARABOU)
   # build a static library
@@ -307,7 +311,6 @@ else()
 endif()
 
 if (${BUILD_PYTHON})
-
     # This is suppose to set the PYTHON_EXECUTABLE variable
     # First try to find the default python version
     find_package(PythonInterp ${DEFAULT_PYTHON_VERSION})
