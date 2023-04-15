@@ -35,9 +35,9 @@ jobs:
   build:
     strategy:
       matrix:
-        # os: [ubuntu-latest]
-        # compiler: [g++, clang++]
-        # build_type: [Debug, Release]
+        os: [ubuntu-latest]
+        compiler: [g++, clang++]
+        build_type: [Debug, Release]
         include:
           - os: macos-latest
             compiler: clang++

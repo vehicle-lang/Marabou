@@ -7,10 +7,10 @@ on:
       - master
 
   # Run CI when a PR is openend or changes are pushed to the PR
-  # pull_request:
-  #   types:
-  #     - opened
-  #     - synchronize
+  pull_request:
+    types:
+      - opened
+      - synchronize
 
   # Run CI every Monday at 7AM to catch bugs due to changes in the ecosystem
   schedule:
