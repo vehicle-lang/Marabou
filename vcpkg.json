@@ -1,6 +1,5 @@
 {
   "dependencies": [
-    { "name": "boost", "version>=": "1.80.0" },
     { "name": "boost-program-options", "version>=": "1.80.0" },
     { "name": "boost-timer", "version>=": "1.80.0" },
     { "name": "boost-chrono", "version>=": "1.80.0" },
