@@ -9,7 +9,7 @@ authors = [{ name = "Wen Kokke", email = "wenkokke@users.noreply.github.com" }]
 description = "A package wrapping Marabou for Vehicle."
 readme = "README.md"
 license = { file = "COPYING" }
-requires-python = ">=3.5"
+requires-python = ">=3.7"
 
 [tool.setuptools]
 packages = ["maraboupy"]
