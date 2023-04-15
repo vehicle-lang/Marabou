@@ -31,6 +31,8 @@ push = false
 [tool.cibuildwheel]
 archs = ["auto64"]
 build-frontend = "build"
+# Disable building PyPy wheels on all platforms
+skip = "pp*"
 test-requires = [
   "pytest>=7.2.1, <8",
   "pytest-cov>=4.0.0, <5",
