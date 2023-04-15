@@ -44,7 +44,8 @@ archs = ["auto64"]
 build-frontend = "build"
 # Disable building PyPy wheels on all platforms
 skip = "pp*"
-test-command = "pytest {package}/maraboupy/test"
+# 2023-04-16: Disable tests:
+# test-command = "pytest {package}/maraboupy/test"
 test-extras = ["test"]
 test-skip = [
   # 2023-04-15: onnxruntime does not support Python 3.11

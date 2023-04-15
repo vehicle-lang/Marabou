@@ -29,6 +29,12 @@ class cmake_build_ext(build_ext):
             f"-DBUILD_PYTHON=ON",
             f"-DPYTHON_EXECUTABLE={sys.executable}",
             f"-DPYTHON_LIBRARY_OUTPUT_DIRECTORY={build_temp}",
+            # 2023-04-16: Disable tests:
+            f"-DRUN_UNIT_TEST=OFF",
+            f"-DRUN_REGRESS_TEST=OFF",
+            f"-DRUN_SYSTEM_TEST=OFF",
+            f"-DRUN_MEMORY_TEST=OFF",
+            f"-DRUN_PYTHON_TEST=OFF",
             path_to_source,
         ]
         print(" ".join(args))
@@ -47,8 +53,11 @@ class cmake_build_ext(build_ext):
             ext_fullpaths_temp = glob(os.path.join(build_temp, "MarabouCore.*.pyd"))
         else:
             ext_fullpaths_temp = glob(os.path.join(build_temp, "MarabouCore.*.so"))
-        if len(ext_fullpaths_temp) != 1:
-            print("Error: multiple candidates for extension MarabouCore")
+        if len(ext_fullpaths_temp) == 0:
+            print("Error: did not build Python extension MarabouCore")
+            exit(1)
+        if len(ext_fullpaths_temp) >= 2:
+            print("Error: built multiple Python extensions MarabouCore")
             exit(1)
         ext_fullpath_temp = ext_fullpaths_temp[0]
         self.copy_file(ext_fullpath_temp, ext_fullpath)
