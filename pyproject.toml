@@ -11,6 +11,9 @@ readme = "README.md"
 license = { file = "COPYING" }
 requires-python = ">=3.7,<3.12"
 
+[project.scripts]
+Marabou = "maraboupy.MarabouMain:main"
+
 [project.optional-dependencies]
 test = [
   "pytest>=7.2.1,<8",
