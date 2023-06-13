@@ -37,9 +37,9 @@ class OnnxParserTestSuite : public CxxTest::TestSuite
             TS_ASSERT ( inputValues.size() == inputQuery.getNumInputVariables() );
             TS_ASSERT ( expectedOutputValues.size() == inputQuery.getNumOutputVariables() );
 
-            for ( unsigned int i = 0; i < inputValues.size(); i++ )
+            for ( uint i = 0; i < inputValues.size(); i++ )
             {
-                unsigned int inputVariable = inputQuery.inputVariableByIndex(i);
+                uint inputVariable = inputQuery.inputVariableByIndex(i);
                 inputQuery.setLowerBound(inputVariable, inputValues[i]);
                 inputQuery.setUpperBound(inputVariable, inputValues[i]);
             }
@@ -49,9 +49,9 @@ class OnnxParserTestSuite : public CxxTest::TestSuite
             TS_ASSERT_THROWS_NOTHING( engine.solve() );
             engine.extractSolution( inputQuery );
 
-            for ( unsigned int i = 0; i < expectedOutputValues.size(); ++i )
+            for ( uint i = 0; i < expectedOutputValues.size(); ++i )
             {
-                unsigned int outputVariable = inputQuery.outputVariableByIndex( i );
+                uint outputVariable = inputQuery.outputVariableByIndex( i );
                 double actualOutputValue = inputQuery.getSolutionValue( outputVariable );
                 double expectedOutputValue = expectedOutputValues[i];
 
