@@ -140,8 +140,8 @@ Padding calculatePaddingNeeded( int inputSize, int filterSize, int stride, bool 
     else
     {
         float halfPadding = paddingNeeded/2.0;
-        int biggerPad = (int) std::ceil(halfPadding);
-        int smallerPad = (int) std::floor(halfPadding);
+        int biggerPad = std::round(halfPadding + 0.5);
+        int smallerPad = std::round(halfPadding - 0.5);
         if ( padFrontPreferentially )
         {
             return Padding ( biggerPad, smallerPad );
